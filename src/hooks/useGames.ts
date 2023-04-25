@@ -33,6 +33,7 @@ const useGames = (
         // parent_platforms: selectedPlatform?.id,
         genres: gameQuery.genre?.id,
         parent_platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
       },
     },
     // array of dependencies
