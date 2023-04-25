@@ -4,13 +4,20 @@ import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
 import useData from "./useData";
 
+import genres from "../data/genres";
+
 export interface Genre {
   id: number;
   name: string;
   image_background: string;
 }
 
-const useGenres = () => useData<Genre>("/genres");
+// const useGenres = () => useData<Genre>("/genres");
+
+// changed to static data instead of calling back end
+// because data has hardly changes
+
+const useGenres = () => ({ data: genres, isLoading: false, error: null });
 
 // moved below code to useData // changed to generic
 // interface FetchGenreResponse {
