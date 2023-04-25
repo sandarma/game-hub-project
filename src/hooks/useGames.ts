@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
 import { CanceledError } from "axios";
+import useData from "./useData";
 
 export interface Platform {
   id: number;
@@ -17,40 +18,43 @@ export interface Game {
   metacritic: number;
 }
 
-interface FetchGameResponse {
-  count: number;
-  results: Game[];
-}
+const useGames = () => useData<Game>("/games");
 
-const useGames = () => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+// moved below code to useData // changed to generic
+// interface FetchGameResponse {
+//   count: number;
+//   results: Game[];
+// }
 
-  useEffect(() => {
-    // cancellations
-    const controller = new AbortController();
+// const useGames = () => {
+//   const [games, setGames] = useState<Game[]>([]);
+//   const [error, setError] = useState("");
+//   const [isLoading, setLoading] = useState(false);
 
-    setLoading(true);
+//   useEffect(() => {
+//     // cancellations
+//     const controller = new AbortController();
 
-    // for cancellation, added {signal: controller.signal} in second argument
-    apiClient
-      .get<FetchGameResponse>("/games", { signal: controller.signal })
-      .then((res) => {
-        setGames(res.data.results);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
+//     setLoading(true);
 
-    // cancellations
-    return () => controller.abort();
-  }, []);
+//     // for cancellation, added {signal: controller.signal} in second argument
+//     apiClient
+//       .get<FetchGameResponse>("/games", { signal: controller.signal })
+//       .then((res) => {
+//         setGames(res.data.results);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         if (err instanceof CanceledError) return;
+//         setError(err.message);
+//         setLoading(false);
+//       });
 
-  return { games, error, isLoading };
-};
+//     // cancellations
+//     return () => controller.abort();
+//   }, []);
+
+//   return { games, error, isLoading };
+// };
 
 export default useGames;

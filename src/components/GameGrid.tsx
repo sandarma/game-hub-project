@@ -19,7 +19,7 @@ import GameCardSkeleton from "./GameCardSkeleton";
 // }
 
 const GameGrid = () => {
-  const { games, error, isLoading } = useGames();
+  const { data: games, error, isLoading } = useGames();
 
   const skeletons = [1, 2, 3, 4, 5, 6];
 
